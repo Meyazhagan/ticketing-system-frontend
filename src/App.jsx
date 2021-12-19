@@ -1,12 +1,22 @@
 import React from "react";
-import Navbar from "./components/Navbar";
-import { BrowserRouter, Switch, Route } from "react-router-dom";
+import { BrowserRouter } from "react-router-dom";
+import AppRoutes from "./app/AppRoutes";
+import { AppProvider } from "./context/AppContext";
+import { ToastContainer } from "react-toastify";
+import { ConverstationProvider } from "./context/ConverstationContext";
+import { QueryProvider } from "./context/QueryContext";
 
 function App() {
     return (
         <BrowserRouter>
-            <Navbar />
-            <Switch></Switch>
+            <AppProvider>
+                <QueryProvider>
+                    <ConverstationProvider>
+                        <AppRoutes />
+                        <ToastContainer />
+                    </ConverstationProvider>
+                </QueryProvider>
+            </AppProvider>
         </BrowserRouter>
     );
 }
