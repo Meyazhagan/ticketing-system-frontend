@@ -1,23 +1,34 @@
 import React from "react";
 import getTimeStamp from "../helper/getTimeStamp";
 
-function QueryDetails({ query }) {
+function QueryDetails({ query, heading }) {
     console.log(getTimeStamp(query._id));
     return (
-        <div className="py-10 px-10 grid grid-cols-12 flex-shrink-0 w-[50%]">
-            <div className="flex items-center justify-between col-span-full">
-                <h2 className="text-indigo-900 opacity-90 text-xl font-semibold">
-                    QN2460 - {query.title}
-                </h2>
-            </div>
-            <div className="bg-gray-200 h-[1px] col-span-full"></div>
+        <div className="py-10 px-10 grid grid-cols-12 flex-grow gap-y-4">
+            {heading && (
+                <>
+                    <div className="flex items-center justify-between col-span-full">
+                        <h2 className="text-indigo-900 opacity-90 text-xl font-semibold">
+                            <span className="uppercase">
+                                QN{query._id.toString().substring(0, 8)}
+                            </span>
+                            - {query.title}
+                        </h2>
+                    </div>
+                    <div className="bg-gray-200 h-[1px] col-span-full"></div>
+                </>
+            )}
             <div className="col-span-6">
                 <h3 className="text-slate-500">Create at</h3>
                 <div className="text-gray-700 text-sm">{getTimeStamp(query._id) || "-"}</div>
             </div>
-            <div className="col-span-6">
+            <div className="col-span-3">
                 <h3 className="text-slate-500">Assigned To</h3>
-                <div className="text-gray-700 text-sm">Suman Gangopadhyay</div>
+                <div className="text-gray-700 text-sm">{query?.assignedTo?.firstName}</div>
+            </div>
+            <div className="col-span-3">
+                <h3 className="text-slate-500">Rasied By</h3>
+                <div className="text-gray-700 text-sm">{query?.rasiedBy?.firstName}</div>
             </div>
             <div className="col-span-full">
                 <h3 className="text-slate-500">Description</h3>

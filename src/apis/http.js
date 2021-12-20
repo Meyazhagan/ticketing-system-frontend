@@ -15,6 +15,7 @@ axios.interceptors.response.use(
     (err) => {
         if (err.response?.data?.error === "Invalid Auth Token") {
             logout();
+            window.location = "/";
         }
         return Promise.reject(err);
     }

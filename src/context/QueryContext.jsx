@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useEffect, useReducer, useState } from "react";
 import { getAllQuery } from "../apis/QueryApi";
+import { getToken } from "../helper/LocalStorage";
 
 const QueryContext = createContext();
 
@@ -14,9 +15,8 @@ function QueryProvider({ children }) {
             dispatch({ type: "SET", payload: query });
         } catch (err) {}
     };
-
     useEffect(() => {
-        fetchQueries();
+        if (getToken()) fetchQueries();
     }, []);
 
     const getById = (id) => {
@@ -41,14 +41,21 @@ function QueryProvider({ children }) {
     );
 }
 
-const queryReducer = (state = [], { type, payload, id }) => {
+const getIndex = (arr, id) => {
+    return arr.findIndex((e) => e._id === id);
+};
+
+const queryReducer = (state = [], { type, payload }) => {
     switch (type) {
         case "SET":
             return payload;
+
         case "CREATE":
             return [payload, ...state];
+
         case "UPDATE":
             const index = getIndex(state, payload._id);
+            if (index === -1) return state;
             return [
                 ...state.slice(0, index),
                 { ...state[index], ...payload },
@@ -56,15 +63,12 @@ const queryReducer = (state = [], { type, payload, id }) => {
             ];
         case "DELETE":
             const i = getIndex(state, payload._id);
+            if (i === -1) return state;
             return [...state.slice(0, i), ...state.slice(i + 1)];
 
         default:
             return state;
     }
-};
-
-const getIndex = (arr, id) => {
-    return arr.findIndex((e) => e._id === id);
 };
 
 function useQueryContext() {

@@ -30,12 +30,16 @@ function Navigation({ user }) {
                         <Link to="/">Home</Link>
                     </li>
                     <li>Query</li>
-                    <li className="whitespace-nowrap">
-                        <Link to="/create-query">Create Query</Link>
-                    </li>
-                    <li className="whitespace-nowrap">
-                        <Link to="/assign-query">Assign Query</Link>
-                    </li>
+                    {user.role === "STUDENT" && (
+                        <li className="whitespace-nowrap">
+                            <Link to="/create-query">Create Query</Link>
+                        </li>
+                    )}
+                    {user.role === "MENTOR" && (
+                        <li className="whitespace-nowrap">
+                            <Link to="/assign-query">Assign Query</Link>
+                        </li>
+                    )}
                 </ul>
             </div>
             <div>

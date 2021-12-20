@@ -2,6 +2,7 @@ import React from "react";
 import { Redirect, Route } from "react-router-dom";
 import PropTypes from "prop-types";
 import { getToken } from "../helper/LocalStorage";
+import Navigation from "./Navigation";
 
 function ProductedRoute({ path, component: Component, user, roles, ...rest }) {
     return (
@@ -16,6 +17,7 @@ function ProductedRoute({ path, component: Component, user, roles, ...rest }) {
 
                 return (
                     <div className="mt-14">
+                        <Navigation user={user} />
                         <Component {...props} />
                     </div>
                 );

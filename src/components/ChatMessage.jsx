@@ -1,31 +1,42 @@
 import React from "react";
 import { FaUserCircle } from "react-icons/fa";
+import useAppContext from "../context/AppContext";
+import classNames from "classnames";
+import { getDate } from "../helper/getTimeStamp";
 
-function ChatMessage() {
+const Message = ({ message, user }) => {
+    const self = user.id === message.from;
     return (
-        <div className="p-8 flex flex-col">
-            <div className="flex items-start my-4 self-start">
-                <FaUserCircle className="text-purple-800" />
-                <div className=" mx-2 bg-purple-50 border p-3 rounded-[0px_15px_15px]">
-                    <div>
-                        Kindly refer to the URL https://www.postman.com/api-documentation-tool/
-                    </div>
-                    <div className="font-mono font-light text-sm text-right mt-4">
-                        Nov 06, 03:31 PM
-                    </div>
+        <div
+            className={classNames("items-center group  mt-2 flex w-full", {
+                "self-start": !self,
+                "self-end flex-row-reverse": self,
+            })}>
+            <div className={classNames("flex ", { "flex-row-reverse": self })}>
+                <FaUserCircle className="text-purple-800 flex-shrink-0" />
+                <div
+                    className={classNames(" mx-2  border p-3", {
+                        "bg-purple-50 rounded-[0px_15px_15px]": !self,
+                        "bg-white rounded-[15px_0px_15px_15px]": self,
+                    })}>
+                    <div>{message.content}</div>
                 </div>
             </div>
-            <div className="flex items-start self-end ">
-                <div className=" mx-2 bg-white border p-3 rounded-[15px_0px_15px_15px]">
-                    <div className="">
-                        Kindly hello to the URL https://www.postman.com/api-documentation-tool/
-                    </div>
-                    <div className="font-mono font-light text-sm text-left mt-4">
-                        Nov 06, 03:31 PM
-                    </div>
-                </div>
-                <FaUserCircle className="text-green" />
+            <div className="opacity-0 group-hover:opacity-70 transition-opacity font-mono font-light text-xs text-right">
+                {getDate(message._id)}
             </div>
+        </div>
+    );
+};
+
+function ChatMessage({ messages }) {
+    const { user } = useAppContext();
+
+    return (
+        <div className="flex flex-col overflow-auto p-8 flex-grow">
+            {messages.map((message, index) => (
+                <Message message={message} user={user} key={index} />
+            ))}
         </div>
     );
 }

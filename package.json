@@ -10,6 +10,7 @@
         "animate.css": "^4.1.1",
         "axios": "^0.24.0",
         "classnames": "^2.3.1",
+        "date-fns": "^2.27.0",
         "dotenv": "^10.0.0",
         "formik": "^2.2.9",
         "joi-browser": "^13.4.0",

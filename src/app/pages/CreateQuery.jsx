@@ -11,6 +11,7 @@ import { createQuery } from "../../apis/QueryApi";
 import Toastify from "../../components/ToastServices";
 import { useHistory } from "react-router-dom";
 import useQueryContext from "../../context/QueryContext";
+import useSocketContext from "../../context/SocketContext";
 
 const Title = ({ children }) => (
     <h2 className="text-violet-900 font-semibold py-5 self-start">{children}</h2>
@@ -18,7 +19,8 @@ const Title = ({ children }) => (
 
 function CreateQuery() {
     const history = useHistory();
-    const { create } = useQueryContext();
+    const { createQuery: socketCreateQuery } = useSocketContext();
+
     const formik = useFormik({
         initialValues: {
             category: "",
@@ -45,7 +47,7 @@ function CreateQuery() {
                     const {
                         success: { query },
                     } = data;
-                    create(query);
+                    socketCreateQuery({ query });
                     history.push("/");
                     return "Query Created";
                 },

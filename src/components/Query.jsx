@@ -8,7 +8,8 @@ function Query({ query, action }) {
             onClick={() => action()}>
             <div className="flex items-center justify-between gap-10">
                 <h2 className="text-indigo-900 opacity-90 text-xl font-semibold">
-                    QN2460 - {query.title}
+                    <span className="uppercase">QN{query._id.toString().substring(0, 8)}</span> -{" "}
+                    {query.title}
                 </h2>
                 <div className="bg-green-50 font-semibold tracking-wider text-sm text-green-600 px-4 py-1 rounded-md">
                     {query.status}

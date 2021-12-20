@@ -33,6 +33,10 @@ export const phoneCommunicationModes = [
 
 const tags = ["HTML", "CSS", "JS", "React", "Node", "Frontend", "Backend", "Mongo DB", "AWS"];
 
+export const status = ["ASSIGNED", "UNASSIGNED", "OPEN", "CLOSE", "REOPEN"];
+
+export const preferredLanguage = ["Tamil", "English", "Hindi"];
+
 export const categoryData = [
     {
         _id: 1,

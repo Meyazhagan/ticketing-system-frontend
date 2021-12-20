@@ -5,27 +5,18 @@ import { AppProvider } from "./context/AppContext";
 import { ToastContainer } from "react-toastify";
 import { ConverstationProvider } from "./context/ConverstationContext";
 import { QueryProvider } from "./context/QueryContext";
-import { io, Socket } from "socket.io-client";
+import { SocketProvider } from "./context/SocketContext";
 
 function App() {
-    let scoket;
-    useEffect(() => {
-        scoket = io("http://localhost:3001/converstation");
-
-        scoket.emit("send-message", "Connected - send message");
-        scoket.on("recieve-message", (message) => {
-            console.log(message);
-        });
-        return () => scoket.disconnect();
-    }, [scoket]);
-
     return (
         <BrowserRouter>
             <AppProvider>
                 <QueryProvider>
                     <ConverstationProvider>
-                        <AppRoutes />
-                        <ToastContainer />
+                        <SocketProvider>
+                            <AppRoutes />
+                            <ToastContainer />
+                        </SocketProvider>
                     </ConverstationProvider>
                 </QueryProvider>
             </AppProvider>

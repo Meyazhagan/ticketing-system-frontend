@@ -16,9 +16,7 @@ const getAllQuery = () => {
     return http.get("/query");
 };
 const getAllFilterQuery = (filter) => {
-    return http.get("/query", {
-        query: filter,
-    });
+    return http.get("/query/filter", { params: filter });
 };
 
 const createQuery = (query) => {

@@ -21,7 +21,6 @@ function AppRoutes() {
 
     return (
         <div>
-            {user && getToken() && <Navigation user={user} />}
             <Switch>
                 <Route path="/login" exact component={Login} />
                 <Route path="/register" exact component={Register} />
