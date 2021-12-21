@@ -11,7 +11,7 @@ function AppProvider({ children }) {
     useEffect(() => {
         try {
             const payload = jwt_decode(getToken());
-            console.log(payload);
+            // console.log(payload);
             userDispatch({ type: "SET", payload });
         } catch (err) {
             userDispatch({ type: "SET", payload: null });

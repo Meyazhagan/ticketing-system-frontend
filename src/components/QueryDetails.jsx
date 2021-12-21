@@ -2,7 +2,6 @@ import React from "react";
 import getTimeStamp from "../helper/getTimeStamp";
 
 function QueryDetails({ query, heading }) {
-    console.log(getTimeStamp(query._id));
     return (
         <div className="py-10 px-10 grid grid-cols-12 flex-grow gap-y-4">
             {heading && (
@@ -10,7 +9,7 @@ function QueryDetails({ query, heading }) {
                     <div className="flex items-center justify-between col-span-full">
                         <h2 className="text-indigo-900 opacity-90 text-xl font-semibold">
                             <span className="uppercase">
-                                QN{query._id.toString().substring(0, 8)}
+                                QN{query?._id?.toString().substring(0, 8)}
                             </span>
                             - {query.title}
                         </h2>
@@ -38,8 +37,10 @@ function QueryDetails({ query, heading }) {
                 <h3 className="text-slate-500">Tags</h3>
                 <div className="flex items-center gap-4 mt-2">
                     {query?.tags?.length > 0 &&
-                        query?.tags?.map((tag) => (
-                            <div className="bg-green-50 tracking-wider text-sm text-green-600 px-4 py-1 rounded-full">
+                        query?.tags?.map((tag, index) => (
+                            <div
+                                key={index}
+                                className="bg-green-50 tracking-wider text-sm text-green-600 px-4 py-1 rounded-full">
                                 {tag}
                             </div>
                         ))}

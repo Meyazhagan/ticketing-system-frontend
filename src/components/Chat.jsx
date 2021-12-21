@@ -23,7 +23,6 @@ function Chat({ converstation }) {
                 message: { content: v.content, from: user.id },
             });
             formik.resetForm();
-            console.log(v);
         },
     });
     return (

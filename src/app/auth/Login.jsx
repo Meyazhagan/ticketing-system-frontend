@@ -27,7 +27,6 @@ function Login() {
                     } = data;
                     window.location.href = "/";
                     setToken(token);
-                    console.log(data);
                     return "Logged In Successfully";
                 },
                 onError: (data) => {
