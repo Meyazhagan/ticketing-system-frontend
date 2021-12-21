@@ -35,7 +35,13 @@ function ConverstationProvider({ children }) {
     }, []);
     return (
         <ConverstationContext.Provider
-            value={{ converstation, fetchConverstations, getById, addMessage }}>
+            value={{
+                converstation,
+                fetchConverstations,
+                getById,
+                addMessage,
+                fetchConverstations,
+            }}>
             {children}
         </ConverstationContext.Provider>
     );

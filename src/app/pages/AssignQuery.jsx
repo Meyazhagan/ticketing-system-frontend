@@ -9,23 +9,16 @@ import QueryFilter from "../../components/QueryFilter";
 import useQueryContext from "../../context/QueryContext";
 import { useHistory } from "react-router-dom";
 import Toastify from "../../components/ToastServices";
-const initialFilter = {
-    status: [],
-    preferredLanguage: [],
-    category: [],
-    subCategory: [],
-};
+import useSocketContext from "../../context/SocketContext";
 
 function AssignQuery() {
     const { user } = useAppContext();
-    const { create } = useQueryContext();
+    const { allQueries, filter, setFilter, setAllQueries } = useQueryContext();
+    const { updateQuery } = useSocketContext();
 
     const history = useHistory();
 
     const [loading, setLoading] = useState(false);
-    const [filter, setFilter] = useState(initialFilter);
-
-    const [queries, setQueries] = useState([]);
     const [current, setCurrent] = useState(-1);
 
     const handleAssign = async (queryId) => {
@@ -35,7 +28,7 @@ function AssignQuery() {
                 const {
                     success: { query },
                 } = data;
-                create(query);
+                updateQuery({ query });
                 history.push("/");
                 return "Query Assigned";
             },
@@ -58,7 +51,7 @@ function AssignQuery() {
                     data: { success },
                 } = await getAllFilterQuery(filter);
                 const { query } = success;
-                setQueries(query);
+                setAllQueries(query);
             } catch (err) {
                 console.log(err);
             }
@@ -71,9 +64,9 @@ function AssignQuery() {
                 <QueryFilter setFilter={setFilter} />
             </div>
             <div className="md:col-span-10 col-span-full flex items-center flex-grow flex-col overflow-hidden p-4">
-                {queries.length <= 0 && <p className="mt-10">There is No query Available</p>}
+                {allQueries.length <= 0 && <p className="mt-10">There is No query Available</p>}
                 <div className="w-full overflow-auto p-4">
-                    {queries.map((query) => (
+                    {allQueries.map((query) => (
                         <div
                             key={query._id}
                             className="flex flex-col my-4 shadow-md  rounded-lg pb-4">

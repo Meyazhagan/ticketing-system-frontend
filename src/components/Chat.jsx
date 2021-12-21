@@ -3,12 +3,13 @@ import React from "react";
 import ChatHeader from "./ChatHeader";
 import ChatMessage from "./ChatMessage";
 import ChatSend from "./ChatSend";
-import useConverstationContext from "../context/ConverstationContext";
 import useAppContext from "../context/AppContext";
 import useSocketContext from "../context/SocketContext";
+import { useParams } from "react-router-dom";
 
 function Chat({ converstation }) {
     const { addNewMessage } = useSocketContext();
+    const { converstationId } = useParams();
     const { user } = useAppContext();
     const formik = useFormik({
         initialValues: {
@@ -19,7 +20,7 @@ function Chat({ converstation }) {
         },
         onSubmit: (v) => {
             addNewMessage({
-                id: converstation._id,
+                id: converstationId,
                 message: { content: v.content, from: user.id },
             });
             formik.resetForm();

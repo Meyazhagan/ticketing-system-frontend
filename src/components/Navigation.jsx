@@ -1,14 +1,21 @@
-import React from "react";
+import React, { useState } from "react";
 import { AiOutlineSearch } from "react-icons/ai";
 import { Link, useHistory } from "react-router-dom";
 import { logout } from "../apis/AuthApi";
+import { FcMenu } from "react-icons/fc";
+import classNames from "classnames";
 
 function Navigation({ user }) {
+    const [open, setOpen] = useState(false);
     return (
         <div
-            className="flex items-center justify-between px-20 z-10 shadow-md
-                min-w-max bg-blue-50 gap-10 fixed left-0 right-0 top-0">
-            <div className="m-4 whitespace-nowrap">Zen Query System</div>
+            className="flex items-center z-10 shadow-md justify-between sm:px-10 
+                max-w-full bg-blue-50 gap-4 fixed left-0 right-0 top-0">
+            <FcMenu
+                className="flex-shrink-0 ml-4 lg:hidden hover:bg-gray-200 w-10 h-10 p-2 rounded-full active:border-gray-600 active:border-2"
+                onClick={() => setOpen((prev) => !prev)}
+            />
+            <div className="my-4 whitespace-nowrap">Zen Query System</div>
             <div className="">
                 <form
                     className="flex items-center gap-4 
@@ -24,8 +31,15 @@ function Navigation({ user }) {
                     <AiOutlineSearch className="text-gray-400" />
                 </form>
             </div>
-            <div>
-                <ul className="flex items-center gap-10">
+            <div
+                className={classNames(
+                    "lg:block lg:static lg:rounded-none lg:bg-transparent lg:shadow-none lg:py-0 py-8",
+                    {
+                        "fixed top-16 bg-white rounded-lg p-4 left-5 shadow-xl": open,
+                        hidden: !open,
+                    }
+                )}>
+                <ul className="flex items-center gap-10 lg:flex-row flex-col">
                     <li>
                         <Link to="/">Home</Link>
                     </li>
@@ -40,17 +54,19 @@ function Navigation({ user }) {
                             <Link to="/assign-query">Assign Query</Link>
                         </li>
                     )}
+
+                    <div className="flex flex-col">
+                        <div>{user.email}</div>
+                        <button
+                            className="text-red-500 mt-4 lg:mt-0"
+                            onClick={() => {
+                                logout();
+                                window.location = "/";
+                            }}>
+                            Logout
+                        </button>
+                    </div>
                 </ul>
-            </div>
-            <div>
-                <div>{user.email}</div>
-                <button
-                    onClick={() => {
-                        logout();
-                        window.location = "/";
-                    }}>
-                    Logout
-                </button>
             </div>
         </div>
     );

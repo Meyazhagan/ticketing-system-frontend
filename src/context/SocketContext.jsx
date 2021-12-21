@@ -7,8 +7,8 @@ const SocketContext = createContext();
 
 function SocketProvider({ children }) {
     const [socket, setSocket] = useState();
-    const { addMessage } = useConverstationContext();
-    const { create, update } = useQueryContext();
+    const { addMessage, fetchConverstations } = useConverstationContext();
+    const { create, update, setAllQueries } = useQueryContext();
 
     useEffect(() => {
         if (getToken()) {
@@ -32,10 +32,11 @@ function SocketProvider({ children }) {
                 addMessage({ id, message });
             });
             socket.on("receive-query-created", ({ query }) => {
-                create(query);
+                setAllQueries((prevQueries) => [query, ...prevQueries]);
             });
             socket.on("receive-query-updates", ({ query }) => {
                 update(query);
+                fetchConverstations();
             });
         };
     }
@@ -55,7 +56,10 @@ function SocketProvider({ children }) {
     const updateQuery = ({ query }) => {
         socket.emit("query-updates", { query }, ({ query, error }) => {
             if (error) console.log(error);
-            else update(query);
+            else {
+                update(query);
+                fetchConverstations();
+            }
         });
     };
 

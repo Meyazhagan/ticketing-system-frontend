@@ -4,8 +4,20 @@ import { getToken } from "../helper/LocalStorage";
 
 const QueryContext = createContext();
 
+const initialFilter = {
+    status: [],
+    preferredLanguage: [],
+    category: [],
+    subCategory: [],
+};
+
 function QueryProvider({ children }) {
     const [query, dispatch] = useReducer(queryReducer, []);
+
+    const [filter, setFilter] = useState(initialFilter);
+
+    const [allQueries, setAllQueries] = useState([]);
+
     const fetchQueries = async () => {
         try {
             const { data } = await getAllQuery();
@@ -35,7 +47,19 @@ function QueryProvider({ children }) {
     };
 
     return (
-        <QueryContext.Provider value={{ query, fetchQueries, create, update, getById, remove }}>
+        <QueryContext.Provider
+            value={{
+                query,
+                fetchQueries,
+                create,
+                update,
+                getById,
+                remove,
+                filter,
+                setFilter,
+                allQueries,
+                setAllQueries,
+            }}>
             {children}
         </QueryContext.Provider>
     );
@@ -55,7 +79,7 @@ const queryReducer = (state = [], { type, payload }) => {
 
         case "UPDATE":
             const index = getIndex(state, payload._id);
-            if (index === -1) return state;
+            if (index === -1) return [payload, ...state];
             return [
                 ...state.slice(0, index),
                 { ...state[index], ...payload },

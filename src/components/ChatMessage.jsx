@@ -33,7 +33,11 @@ function ChatMessage({ messages }) {
     const { user } = useAppContext();
 
     return (
-        <div className="flex flex-col overflow-auto p-8 flex-grow">
+        // <div className="flex flex-col overflow-auto p-8 flex-grow ">
+        <div
+            className="flex-grow overflow-auto scrollbar-thumb-gray-400 
+            scrollbar-track-transparent scrollbar-thin p-10 
+            scrollbar-thumb-rounded">
             {messages.map((message, index) => (
                 <Message message={message} user={user} key={index} />
             ))}
