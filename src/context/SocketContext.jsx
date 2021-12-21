@@ -12,7 +12,7 @@ function SocketProvider({ children }) {
 
     useEffect(() => {
         if (getToken()) {
-            const socket = io("http://localhost:3001/converstation", {
+            const socket = io(import.meta.env.VITE_SOCKET_URL, {
                 auth: { token: getToken() },
             });
             setSocket(socket);
