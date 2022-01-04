@@ -7,6 +7,11 @@ import { ConverstationProvider } from "./context/ConverstationContext";
 import { QueryProvider } from "./context/QueryContext";
 import { SocketProvider } from "./context/SocketContext";
 
+import { loadProgressBar } from "axios-progress-bar";
+import "axios-progress-bar/dist/nprogress.css";
+
+loadProgressBar();
+
 function App() {
     return (
         <BrowserRouter>
